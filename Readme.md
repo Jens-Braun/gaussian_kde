@@ -3,14 +3,20 @@
 
 Given a dataset $X = {x_1, \cdots, x_n}$ sampled from an arbitrary probability density function (PDF), the
 underlying PDF is estimated as a sum of *kernel* functions $K$ centered at the points of the original dataset:
-$$ f_\mathrm{KDE}(x) = \frac{1}{\sum_i w_i} \sum_{i=1}^n w_i \, K_H\left(\bm{x} - \bm{x}_i\right). $$
+```math
+f_\mathrm{KDE}(x) = \frac{1}{\sum_i w_i} \sum_{i=1}^n w_i \, K_H\left(\bm{x} - \bm{x}_i\right).
+```
 Here, $H$ is the *bandwidth* matrix.
 
 Specifically, this crate implements KDE with multivariate normal kernels and covariance based bandwidths,
-$$ K_H(\bm{y}) = \frac{1}{\sqrt{(2\pi)^d \det H}} \exp\left(- \frac{1}{2} \bm{y}^\top H^{-1} \bm{y}\right) \quad \text{and} \quad H = h^2 V,$$
+```math
+K_H(\bm{y}) = \frac{1}{\sqrt{(2\pi)^d \det H}} \exp\left(- \frac{1}{2} \bm{y}^\top H^{-1} \bm{y}\right) \quad \text{and} \quad H = h^2 V,
+```
 where $h$ is the scalar bandwidth factor and $V$ is the dataset's covariance matrix. Inserting this into the equation above,
 the density estimation reads
-$$ f_\mathrm{KDE}(x) = \frac{1}{h^d \sqrt{(2\pi)^d \det V} \sum_i w_i} \sum_{i=1}^n w_i \, \exp\left(- \frac{1}{2h^2}(\bm{x} - \bm{x}_i)^\top V^{-1}(\bm{x} - \bm{x}_i)\right). $$
+```math
+f_\mathrm{KDE}(x) = \frac{1}{h^d \sqrt{(2\pi)^d \det V} \sum_i w_i} \sum_{i=1}^n w_i \, \exp\left(- \frac{1}{2h^2}(\bm{x} - \bm{x}_i)^\top V^{-1}(\bm{x} - \bm{x}_i)\right).
+```
 For more details on (multivariate) kernel density estimation, see e.g. [[1](#ref1), [2](#ref2)].
 
 This implementation is largely based on the one in [`scipy`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gaussian_kde.html).
